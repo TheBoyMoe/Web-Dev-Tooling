@@ -6,7 +6,7 @@
 	[2] https://github.com/terinjokes/gulp-uglify/blob/master/docs/why-use-pump/README.md#why-use-pump
 	[3] https://github.com/terinjokes/gulp-uglify/issues/243
 	[4] https://github.com/mafintosh/pump
-	
+	[5] https://css-tricks.com/gulp-for-beginners/
 	
 	Notes:
 	1. using pump:
@@ -16,6 +16,7 @@
 	and passes you the errors in a callback.
 	
  */
+
 let gulp = require('gulp');
 let uglify = require('gulp-uglify');
 let pump = require('pump');
@@ -24,11 +25,13 @@ let concat = require('gulp-concat');
 let minifycss = require('gulp-minify-css');
 let autoprefixer = require('gulp-autoprefixer');
 let sourcemaps = require('gulp-sourcemaps');
+let sass = require('gulp-sass');
 
 const JS_SRC_PATH = 'src/js/**/*.js';
 const CSS_SRC_PATH = 'src/css/**/*.css';
 
-// styles
+// CSS styles task - using the scss task instead
+/*
 gulp.task('styles', function (cb) {
 	// impl sourcemaps to enable debugging of css propbles in dev tools
 	// prefix, concat & minify the css files, starting with normalize and output to public folder
@@ -46,6 +49,28 @@ gulp.task('styles', function (cb) {
 	], cb);
 	
 });
+*/
+
+// sass/scss styles task
+gulp.task('sass-styles', function (cb) {
+	// impl sourcemaps to enable debugging of css propbles in dev tools
+	// prefix, concat & minify the css files, starting with normalize and output to public folder
+	pump([
+		gulp.src('src/scss/app.scss'), // import all other scss files through app.scss
+		sourcemaps.init(),
+		autoprefixer({
+			browsers: ['last 2 versions']
+		}),
+		sass({
+			outputStyle: 'compressed'
+		}),
+		sourcemaps.write(),
+		gulp.dest('public/css'),
+		livereload()
+	], cb);
+	
+});
+
 
 // js
 gulp.task('scripts', function (cb) {
@@ -76,7 +101,8 @@ gulp.task('watch', function (cb) {
 	
 	// watch for any changes to js & css files
 	gulp.watch(JS_SRC_PATH, ['scripts']);
-	gulp.watch(CSS_SRC_PATH, ['styles']);
+	//gulp.watch(CSS_SRC_PATH, ['styles']);
+	gulp.watch('src/scss/**/*.scss', ['sass-styles']);
 	
 });
 
