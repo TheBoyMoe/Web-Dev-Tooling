@@ -21,6 +21,7 @@ let uglify = require('gulp-uglify');
 let pump = require('pump');
 let livereload = require('gulp-livereload');
 let concat = require('gulp-concat');
+let minifycss = require('gulp-minify-css');
 
 const JS_SRC_PATH = 'src/js/**/*.js';
 const CSS_SRC_PATH = 'src/css/**/*.css';
@@ -29,10 +30,11 @@ const CSS_SRC_PATH = 'src/css/**/*.css';
 gulp.task('styles', function (cb) {
 	console.log(`starting with styles...`);
 	
-	// concat the css files, starting with normalize and output to public folder
+	// concat & minify the css files, starting with normalize and output to public folder
 	pump([
 		gulp.src(['src/css/normalize.css', CSS_SRC_PATH]),
 		concat('app.css'),
+		minifycss(),
 		gulp.dest('public/css'),
 		livereload()
 	], cb);
