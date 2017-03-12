@@ -19,6 +19,8 @@
 let gulp = require('gulp');
 let uglify = require('gulp-uglify');
 let pump = require('pump');
+let livereload = require('gulp-livereload');
+
 const SCRIPTS_PATH = 'src/js/**/*.js';
 
 // styles
@@ -34,7 +36,8 @@ gulp.task('js', function (cb) {
 	pump([
 		gulp.src(SCRIPTS_PATH),
 		uglify(),
-		gulp.dest('public/js')
+		gulp.dest('public/js'),
+		livereload()
 	], cb);
 	
 });
@@ -49,6 +52,8 @@ gulp.task('watch', function (cb) {
 	console.log('starting watch task');
 	// start static-server
 	require('./server.js');
+	// launch livereload to refresh the browser
+	livereload.listen();
 	// watch for any changes to js files
 	gulp.watch(SCRIPTS_PATH, ['js']);
 });
