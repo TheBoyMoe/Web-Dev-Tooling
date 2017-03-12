@@ -1,1 +1,1 @@
-document.write("Hello fromTom!");
+document.write("Hello from Tom, Dick & Harry!");

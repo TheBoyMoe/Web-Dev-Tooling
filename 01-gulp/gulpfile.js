@@ -19,19 +19,20 @@
 let gulp = require('gulp');
 let uglify = require('gulp-uglify');
 let pump = require('pump');
+const SCRIPTS_PATH = 'src/js/**/*.js';
 
 // styles
 gulp.task('styles', function () {
 	console.log(`starting with styles...`);
 });
 
-// scripts
-gulp.task('scripts', function (cb) {
-	console.log('executing scripts tasks...');
+// js
+gulp.task('js', function (cb) {
+	console.log('executing js tasks...');
 	
-	// minify all scripts files found in src and output to public
+	// minify all js files found in src and output to public
 	pump([
-		gulp.src('src/scripts/*.js'),
+		gulp.src(SCRIPTS_PATH),
 		uglify(),
 		gulp.dest('public/js')
 	], cb);
@@ -41,6 +42,15 @@ gulp.task('scripts', function (cb) {
 // images
 gulp.task('imgs', function () {
 	console.log('finishing off with images tasks!');
+});
+
+// watch task
+gulp.task('watch', function (cb) {
+	console.log('starting watch task');
+	// start static-server
+	require('./server.js');
+	// watch for any changes to js files
+	gulp.watch(SCRIPTS_PATH, ['js']);
 });
 
 // default task
