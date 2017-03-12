@@ -23,21 +23,24 @@ let livereload = require('gulp-livereload');
 let concat = require('gulp-concat');
 let minifycss = require('gulp-minify-css');
 let autoprefixer = require('gulp-autoprefixer');
+let sourcemaps = require('gulp-sourcemaps');
 
 const JS_SRC_PATH = 'src/js/**/*.js';
 const CSS_SRC_PATH = 'src/css/**/*.css';
 
 // styles
 gulp.task('styles', function (cb) {
-	
+	// impl sourcemaps to enable debugging of css propbles in dev tools
 	// prefix, concat & minify the css files, starting with normalize and output to public folder
 	pump([
 		gulp.src(['src/css/normalize.css', CSS_SRC_PATH]),
+		sourcemaps.init(),
 		autoprefixer({
 			browsers: ['last 2 versions']
 		}),
 		concat('app.css'),
 		minifycss(),
+		sourcemaps.write(),
 		gulp.dest('public/css'),
 		livereload()
 	], cb);
