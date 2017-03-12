@@ -12,5 +12,8 @@
     "gulp": "^3.9.1",
     "gulp-uglify": "^2.1.0",
     "pump": "^1.0.2"
+  },
+  "dependencies": {
+    "static-server": "^2.0.4"
   }
 }
