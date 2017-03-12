@@ -22,17 +22,20 @@ let pump = require('pump');
 let livereload = require('gulp-livereload');
 let concat = require('gulp-concat');
 let minifycss = require('gulp-minify-css');
+let autoprefixer = require('gulp-autoprefixer');
 
 const JS_SRC_PATH = 'src/js/**/*.js';
 const CSS_SRC_PATH = 'src/css/**/*.css';
 
 // styles
 gulp.task('styles', function (cb) {
-	console.log(`starting with styles...`);
 	
-	// concat & minify the css files, starting with normalize and output to public folder
+	// prefix, concat & minify the css files, starting with normalize and output to public folder
 	pump([
 		gulp.src(['src/css/normalize.css', CSS_SRC_PATH]),
+		autoprefixer({
+			browsers: ['last 2 versions']
+		}),
 		concat('app.css'),
 		minifycss(),
 		gulp.dest('public/css'),
@@ -43,7 +46,6 @@ gulp.task('styles', function (cb) {
 
 // js
 gulp.task('scripts', function (cb) {
-	console.log('executing js tasks...');
 	
 	// minify all js files found in src and output to public
 	pump([
@@ -62,7 +64,6 @@ gulp.task('imgs', function () {
 
 // watch task
 gulp.task('watch', function (cb) {
-	console.log('starting watch task');
 	
 	// start static-server
 	require('./server.js');
@@ -73,6 +74,7 @@ gulp.task('watch', function (cb) {
 	// watch for any changes to js & css files
 	gulp.watch(JS_SRC_PATH, ['scripts']);
 	gulp.watch(CSS_SRC_PATH, ['styles']);
+	
 });
 
 // default task
