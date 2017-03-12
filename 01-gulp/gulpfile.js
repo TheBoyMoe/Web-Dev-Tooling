@@ -20,12 +20,23 @@ let gulp = require('gulp');
 let uglify = require('gulp-uglify');
 let pump = require('pump');
 let livereload = require('gulp-livereload');
+let concat = require('gulp-concat');
 
-const SCRIPTS_PATH = 'src/js/**/*.js';
+const JS_SRC_PATH = 'src/js/**/*.js';
+const CSS_SRC_PATH = 'src/css/**/*.css';
 
 // styles
-gulp.task('styles', function () {
+gulp.task('styles', function (cb) {
 	console.log(`starting with styles...`);
+	
+	// concat the css files, starting with normalize and output to public folder
+	pump([
+		gulp.src(['src/css/normalize.css', CSS_SRC_PATH]),
+		concat('app.css'),
+		gulp.dest('public/css'),
+		livereload()
+	], cb);
+	
 });
 
 // js
@@ -34,7 +45,7 @@ gulp.task('js', function (cb) {
 	
 	// minify all js files found in src and output to public
 	pump([
-		gulp.src(SCRIPTS_PATH),
+		gulp.src(JS_SRC_PATH),
 		uglify(),
 		gulp.dest('public/js'),
 		livereload()
@@ -55,7 +66,7 @@ gulp.task('watch', function (cb) {
 	// launch livereload to refresh the browser
 	livereload.listen();
 	// watch for any changes to js files
-	gulp.watch(SCRIPTS_PATH, ['js']);
+	gulp.watch(JS_SRC_PATH, ['js']);
 });
 
 // default task
