@@ -42,7 +42,7 @@ gulp.task('styles', function (cb) {
 });
 
 // js
-gulp.task('js', function (cb) {
+gulp.task('scripts', function (cb) {
 	console.log('executing js tasks...');
 	
 	// minify all js files found in src and output to public
@@ -63,12 +63,16 @@ gulp.task('imgs', function () {
 // watch task
 gulp.task('watch', function (cb) {
 	console.log('starting watch task');
+	
 	// start static-server
 	require('./server.js');
+	
 	// launch livereload to refresh the browser
 	livereload.listen();
-	// watch for any changes to js files
-	gulp.watch(JS_SRC_PATH, ['js']);
+	
+	// watch for any changes to js & css files
+	gulp.watch(JS_SRC_PATH, ['scripts']);
+	gulp.watch(CSS_SRC_PATH, ['styles']);
 });
 
 // default task
