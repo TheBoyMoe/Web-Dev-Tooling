@@ -1,8 +1,8 @@
 .idea/
 
-01-gulp/node_modules
-01-gulp/webapp.zip
-01-gulp/webapp/
-01-gulp/public/css/
-01-gulp/public/imgs/
-01-gulp/public/js/
+gulp/node_modules
+gulp/webapp.zip
+gulp/webapp/
+gulp/public/css/
+gulp/public/imgs/
+gulp/public/js/
