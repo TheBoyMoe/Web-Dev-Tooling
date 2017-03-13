@@ -29,6 +29,7 @@ let sourcemaps = require('gulp-sourcemaps');
 let sass = require('gulp-sass');
 let babel = require('gulp-babel');
 let del = require('del');
+let zip = require('gulp-zip');
 
 // gulp-imagemin - combo of lossy and lossless algos for png/jpg/giff/svg minification
 // imagemin-pngquant - lossy compression of png files
@@ -41,7 +42,7 @@ const JS_SRC_PATH = 'src/js/**/*.js';
 const CSS_SRC_PATH = 'src/css/**/*.css';
 const IMGS_PATH = 'src/imgs/**/*.{png,jpeg,jpg,svg,gif}';
 
-// CSS styles task - using the scss task instead
+// autoprefix, minify and concatenate CSS styles task - using the sass task instead
 /*
 gulp.task('styles', function (cb) {
 	// impl sourcemaps to enable debugging of css propbles in dev tools
@@ -62,6 +63,11 @@ gulp.task('styles', function (cb) {
 });
 */
 
+gulp.task('export', function () {
+	return gulp.src('public/**/*')
+		.pipe(zip('webapp.zip'))
+		.pipe(gulp.dest('./'));
+});
 
 // clean unwanted files from the public folder
 gulp.task('clean', function () {
@@ -73,7 +79,7 @@ gulp.task('clean', function () {
 	]);
 });
 
-// images // TODO - check if images have changed prior to running task
+// compress png/jpg/jpeg/svg & gif using lossy/lossless algos
 gulp.task('images', function () {
 	
 	return	gulp.src(IMGS_PATH)
@@ -89,7 +95,7 @@ gulp.task('images', function () {
 		.pipe(gulp.dest('public/imgs'));
 });
 
-// sass/scss styles task
+// autoprefix, minify, concatenate and preprocess sass to css
 gulp.task('sass-styles', function (cb) {
 	// impl sourcemaps to enable debugging of css propbles in dev tools
 	// prefix, concat & minify the css files, starting with normalize and output to public folder
@@ -109,7 +115,7 @@ gulp.task('sass-styles', function (cb) {
 	
 });
 
-// js gulp task
+// transpile es6, minify and concatenate js files
 gulp.task('scripts', function (cb) {
 	
 	// compile, minify & concat all js files found in src and output to public
@@ -129,8 +135,9 @@ gulp.task('scripts', function (cb) {
 	
 });
 
-// watch task - execute all the tasks prior to watching for changes
+// watch task - execute all the tasks prior to monitoring for any changes to css/js files
 gulp.task('watch', ['default'], function (cb) {
+	// TODO - impl watch on imgs dir(s)
 	
 	// start static-server
 	require('./server.js');
