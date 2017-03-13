@@ -7,6 +7,6 @@ class Person {
 		else return `Hello!`
 	}
 }
-let person = new Person('Simon Templar');
+let person = new Person('Simon Smith');
 document.write(person.hello());
 console.log('Add comment ot console for debugging');
