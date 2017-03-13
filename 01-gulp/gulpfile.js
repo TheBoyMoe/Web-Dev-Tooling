@@ -28,6 +28,7 @@ let autoprefixer = require('gulp-autoprefixer');
 let sourcemaps = require('gulp-sourcemaps');
 let sass = require('gulp-sass');
 let babel = require('gulp-babel');
+let del = require('del');
 
 // gulp-imagemin - combo of lossy and lossless algos for png/jpg/giff/svg minification
 // imagemin-pngquant - lossy compression of png files
@@ -62,8 +63,18 @@ gulp.task('styles', function (cb) {
 */
 
 
-// images
-gulp.task('images', function () {
+// clean unwanted files from the public folder
+gulp.task('clean', function () {
+	// pass in an array of paths to be removed
+	return del.sync([
+		'public/imgs/**/*.{png,jpeg,jpg,svg,gif}',
+		'public/css/**/*.css',
+		'public/js/**/*.js',
+	]);
+});
+
+// images // TODO - check if images have changed prior to running task
+gulp.task('images', function (cb) {
 	pump([
 		gulp.src(IMGS_PATH),
 		imagemin([
@@ -75,7 +86,7 @@ gulp.task('images', function () {
 			jpgrecompress()
 		]),
 		gulp.dest('public/imgs')
-	])
+	], cb)
 });
 
 // sass/scss styles task
@@ -135,6 +146,6 @@ gulp.task('watch', ['default'], function (cb) {
 });
 
 // default task - calls other tasks, before finishing with default task
-gulp.task('default', ['images', 'sass-styles', 'scripts'], function () {
+gulp.task('default', ['clean', 'images', 'sass-styles', 'scripts'], function () {
 	console.log(`...processing tasks!`);
 });
