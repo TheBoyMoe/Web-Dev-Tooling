@@ -53,6 +53,12 @@ gulp.task('styles', function (cb) {
 });
 */
 
+
+// images
+gulp.task('images', function () {
+	console.log('running images tasks!');
+});
+
 // sass/scss styles task
 gulp.task('sass-styles', function (cb) {
 	// impl sourcemaps to enable debugging of css propbles in dev tools
@@ -93,13 +99,8 @@ gulp.task('scripts', function (cb) {
 	
 });
 
-// images
-gulp.task('imgs', function () {
-	console.log('finishing off with images tasks!');
-});
-
-// watch task
-gulp.task('watch', function (cb) {
+// watch task - execute all the tasks prior to watching for changes
+gulp.task('watch', ['default'], function (cb) {
 	
 	// start static-server
 	require('./server.js');
@@ -114,7 +115,7 @@ gulp.task('watch', function (cb) {
 	
 });
 
-// default task
-gulp.task('default', function () {
-	console.log(`Running gulp tasks...`)
+// default task - calls other tasks, before finishing with default task
+gulp.task('default', ['images', 'sass-styles', 'scripts'], function () {
+	console.log(`...gulp tasks complete`);
 });

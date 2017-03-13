@@ -5,7 +5,7 @@ let server = new StaticServer({
 	port: 3000
 });
 
-/* launch the server from the command prompt with 'node server.js' */
+/* launch the server from the command prompt with 'node server.js' OR automatically via gulp watch */
 server.start(function () {
 	console.log(`Starting server on port ${server.port}`);
 });
