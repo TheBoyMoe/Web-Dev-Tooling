@@ -72,13 +72,14 @@ gulp.task('sass-styles', function (cb) {
 });
 
 
-// js
+// js gulp task
 gulp.task('scripts', function (cb) {
 	
 	// minify all js files found in src and output to public
 	pump([
 		gulp.src(JS_SRC_PATH),
 		uglify(),
+		concat('app.js'),
 		gulp.dest('public/js'),
 		livereload()
 	], cb);
