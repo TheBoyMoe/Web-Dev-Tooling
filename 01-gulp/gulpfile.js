@@ -27,6 +27,7 @@ let minifycss = require('gulp-minify-css');
 let autoprefixer = require('gulp-autoprefixer');
 let sourcemaps = require('gulp-sourcemaps');
 let sass = require('gulp-sass');
+let babel = require('gulp-babel');
 
 const JS_SRC_PATH = 'src/js/**/*.js';
 const CSS_SRC_PATH = 'src/css/**/*.css';
@@ -75,10 +76,14 @@ gulp.task('sass-styles', function (cb) {
 // js gulp task
 gulp.task('scripts', function (cb) {
 	
-	// minify all js files found in src and output to public
+	// compile, minify & concat all js files found in src and output to public
+	// uglify can't handle es6, call to babel needs to come first
 	pump([
 		gulp.src(JS_SRC_PATH),
 		sourcemaps.init(),
+		babel({
+			presets: ['es2015']
+		}),
 		uglify(),
 		concat('app.js'),
 		sourcemaps.write(),

@@ -1,4 +1,4 @@
-var max = 10;
-for(var i = 0; i < 10; i++){
-	console.log('index value: ' + i);
+let max = 10;
+for(let i = 0; i < 5; i++){
+	console.log(`index: ${i}`);
 }
