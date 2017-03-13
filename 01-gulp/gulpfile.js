@@ -29,8 +29,16 @@ let sourcemaps = require('gulp-sourcemaps');
 let sass = require('gulp-sass');
 let babel = require('gulp-babel');
 
+// gulp-imagemin - combo of lossy and lossless algos for png/jpg/giff/svg minification
+// imagemin-pngquant - lossy compression of png files
+// imagemin-jpeg-recompress - lossy compression of jpg files
+let imagemin = require('gulp-imagemin');
+let pngquant = require('imagemin-pngquant');
+let jpgrecompress = require('imagemin-jpeg-recompress');
+
 const JS_SRC_PATH = 'src/js/**/*.js';
 const CSS_SRC_PATH = 'src/css/**/*.css';
+const IMGS_PATH = 'src/imgs/**/*.{png,jpeg,jpg,svg,gif}';
 
 // CSS styles task - using the scss task instead
 /*
@@ -56,7 +64,18 @@ gulp.task('styles', function (cb) {
 
 // images
 gulp.task('images', function () {
-	console.log('running images tasks!');
+	pump([
+		gulp.src(IMGS_PATH),
+		imagemin([
+			imagemin.gifsicle(),
+			imagemin.jpegtran(),
+			imagemin.optipng(),
+			imagemin.svgo(),
+			pngquant(),
+			jpgrecompress()
+		]),
+		gulp.dest('public/imgs')
+	])
 });
 
 // sass/scss styles task
@@ -117,5 +136,5 @@ gulp.task('watch', ['default'], function (cb) {
 
 // default task - calls other tasks, before finishing with default task
 gulp.task('default', ['images', 'sass-styles', 'scripts'], function () {
-	console.log(`...gulp tasks complete`);
+	console.log(`...processing tasks!`);
 });
