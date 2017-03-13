@@ -74,9 +74,10 @@ gulp.task('clean', function () {
 });
 
 // images // TODO - check if images have changed prior to running task
-gulp.task('images', function (cb) {
-	pump([
-		gulp.src(IMGS_PATH),
+gulp.task('images', function () {
+	
+	return	gulp.src(IMGS_PATH)
+		.pipe(
 		imagemin([
 			imagemin.gifsicle(),
 			imagemin.jpegtran(),
@@ -84,9 +85,8 @@ gulp.task('images', function (cb) {
 			imagemin.svgo(),
 			pngquant(),
 			jpgrecompress()
-		]),
-		gulp.dest('public/imgs')
-	], cb)
+		]))
+		.pipe(gulp.dest('public/imgs'));
 });
 
 // sass/scss styles task
@@ -147,5 +147,5 @@ gulp.task('watch', ['default'], function (cb) {
 
 // default task - calls other tasks, before finishing with default task
 gulp.task('default', ['clean', 'images', 'sass-styles', 'scripts'], function () {
-	console.log(`...processing tasks!`);
+	console.log(`...completing tasks!`);
 });
