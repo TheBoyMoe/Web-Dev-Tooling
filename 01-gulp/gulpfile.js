@@ -7,6 +7,7 @@
 	[3] https://github.com/terinjokes/gulp-uglify/issues/243
 	[4] https://github.com/mafintosh/pump
 	[5] https://css-tricks.com/gulp-for-beginners/
+	[6] http://www.mead.io/yarn/ (yarn package manager)
 	
 	Notes:
 	1. using pump:
@@ -71,15 +72,16 @@ gulp.task('sass-styles', function (cb) {
 	
 });
 
-
 // js gulp task
 gulp.task('scripts', function (cb) {
 	
 	// minify all js files found in src and output to public
 	pump([
 		gulp.src(JS_SRC_PATH),
+		sourcemaps.init(),
 		uglify(),
 		concat('app.js'),
+		sourcemaps.write(),
 		gulp.dest('public/js'),
 		livereload()
 	], cb);

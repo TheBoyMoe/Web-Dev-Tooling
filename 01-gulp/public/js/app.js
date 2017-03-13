@@ -1,2 +1,3 @@
-document.write("Hello from Tom, Dick & Pete!!");
-for(var max=10,i=0;i<5;i++)document.write("<p>value "+i+"</p>");
+document.write("Hello from Tom, Dick, Pete & Russell too!!"),console.log("Add comment ot console for debugging");
+for(var max=10,i=0;i<10;i++)console.log("index value: "+i);
+//# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImFwcC5qcyIsIm1vcmUuanMiXSwibmFtZXMiOlsiZG9jdW1lbnQiLCJ3cml0ZSIsImNvbnNvbGUiLCJsb2ciLCJtYXgiLCJpIl0sIm1hcHBpbmdzIjoiQUFDQUEsU0FBU0MsTUFBTSw4Q0FDZkMsUUFBUUMsSUFBSTtBQ0RaLElBQUksR0FEQUMsS0FBTSxHQUNGQyxFQUFJLEVBQUdBLEVBQUksR0FBSUEsSUFDdEJILFFBQVFDLElBQUksZ0JBQWtCRSIsImZpbGUiOiJhcHAuanMiLCJzb3VyY2VzQ29udGVudCI6WyJ2YXIgbmFtZSA9ICdUb20sIERpY2ssIFBldGUgJiBSdXNzZWxsIHRvbyc7XG5kb2N1bWVudC53cml0ZSgnSGVsbG8gZnJvbSAnICsgbmFtZSArICchIScpO1xuY29uc29sZS5sb2coJ0FkZCBjb21tZW50IG90IGNvbnNvbGUgZm9yIGRlYnVnZ2luZycpOyIsInZhciBtYXggPSAxMDtcbmZvcih2YXIgaSA9IDA7IGkgPCAxMDsgaSsrKXtcblx0Y29uc29sZS5sb2coJ2luZGV4IHZhbHVlOiAnICsgaSk7XG59Il19
