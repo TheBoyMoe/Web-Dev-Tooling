@@ -16,6 +16,9 @@
 	[13] https://browsersync.io/docs/gulp/
 	[14] https://github.com/pugjs/pug
 	[15] https://github.com/gulpjs/gulp/tree/4.0 (github repo and sample gulpfile.js)
+	[16] http://yeoman.io/
+	[17] https://github.com/petecoop/generator-express (Express generator for Yeoman, supports Pug, Sass, MongoDB, Gulp)
+	[18] https://github.com/hdngr/advanced-gulp-example
 	
 	Use Gulp to:
 	1. build and deploy your app to production
