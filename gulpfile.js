@@ -11,9 +11,14 @@
 	[9] http://blog.teamtreehouse.com/introduction-source-maps
 	[10] https://github.com/gulpjs/gulp/blob/master/docs/API.md#async-task-support
 	[11] https://github.com/isaacs/node-glob
+	[11] http://gulpjs.com/
+	
+	Use Gulp to:
+	1. build and deploy your app to production
+	2. automate your work flow in your dev environment
 	
 	To run the http-server
-	1. install globally
+	1. install globally (req'd once)
 		$ npm i http-server -g
 	2. run the server - specifying a port - default is 8080
 		$ http-server -p 3000
@@ -67,7 +72,17 @@ gulp.task('watch-task', () => {
 	gulp.watch('scss/**/*.scss', ['compile-sass']);
 });
 
-gulp.task('build', ['minify-scripts', 'compile-sass']);
+// build the production app
+gulp.task('build', ['minify-scripts', 'compile-sass'], () => {
+	return gulp.src([
+			'css/app.css',
+			'js/app.min.js',
+			'index.html',
+			'img/**',
+			'fonts/** '
+		], {base: './'}) // maintain current folder structure, relative to the base path
+		.pipe(gulp.dest('dist'));
+});
 
 gulp.task('default', ['build'], () => {
 	console.log('... all tasks have been completed!');
