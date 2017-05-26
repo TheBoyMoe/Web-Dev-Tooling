@@ -22,6 +22,7 @@ const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
+const maps = require('gulp-sourcemaps');
 
 // concat js files - order matters!
 gulp.task('concat-scripts', () => {
@@ -45,18 +46,13 @@ gulp.task('minify-scripts', () => {
 gulp.task('compile-sass', () => {
 	// application.scss imports all other required scss files
 	gulp.src('scss/application.scss')
+		.pipe(maps.init())
 		.pipe(sass())
 		.pipe(rename('app.css'))
+		.pipe(maps.write('./'))
 		.pipe(gulp.dest('css'))
 });
 
-gulp.task('hello', () => {
-	console.log('Hello from me ...');
-});
-
-gulp.task('goodbye', () => {
-	console.log('... and it\'s goodbye from him!')
-});
 
 gulp.task('default', ['concat-scripts', 'minify-scripts', 'compile-sass'], () => {
 	console.log('... all tasks have been completed!');
