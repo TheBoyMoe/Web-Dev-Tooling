@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Gulp Basics Treehouse Course
 This repository contains the project code for my [Gulp Basics course on Treehouse](https://teamtreehouse.com/library/gulp-basics).
 
