@@ -12,6 +12,10 @@
 	[10] https://github.com/gulpjs/gulp/blob/master/docs/API.md#async-task-support
 	[11] https://github.com/isaacs/node-glob
 	[11] http://gulpjs.com/
+	[12] https://github.com/klei/gulp-inject
+	[13] https://browsersync.io/docs/gulp/
+	[14] https://github.com/pugjs/pug
+	[15] https://github.com/gulpjs/gulp/tree/4.0 (github repo and sample gulpfile.js)
 	
 	Use Gulp to:
 	1. build and deploy your app to production
@@ -34,7 +38,7 @@ const maps = require('gulp-sourcemaps');
 const del = require('del');
 
 // concat js files - order matters!
-gulp.task('concat-scripts', () => {
+gulp.task('concatScripts', () => {
 	return gulp.src([
 		'js/jquery.js',
 		'js/sticky/jquery.sticky.js',
@@ -50,7 +54,7 @@ gulp.task('concat-scripts', () => {
 // making concat-scripts a dependency of minify-scripts and adding the 'return' keyword
 // ensures that minify-scripts will not start until concat-scripts has returned
 // use the return keyword when a task depends on another task, otherwise not req'd
-gulp.task('minify-scripts', ['concat-scripts'], () => {
+gulp.task('minifyScripts', ['concatScripts'], () => {
 	return gulp.src('js/app.js')
 		.pipe(uglify())
 		.pipe(rename('app.min.js'))
@@ -58,7 +62,7 @@ gulp.task('minify-scripts', ['concat-scripts'], () => {
 });
 
 // compile sass
-gulp.task('compile-sass', () => {
+gulp.task('compileSass', () => {
 	// application.scss imports all other required scss files
 	return gulp.src('scss/application.scss')
 		.pipe(maps.init())
@@ -68,13 +72,8 @@ gulp.task('compile-sass', () => {
 		.pipe(gulp.dest('css'))
 });
 
-// watch for sass changes - look in the sass folder and any sub-folders for files with a .scss ext.
-gulp.task('watch-task', () => {
-	gulp.watch('scss/**/*.scss', ['compile-sass']);
-});
-
 // build the production app
-gulp.task('build', ['minify-scripts', 'compile-sass'], () => {
+gulp.task('build', ['minifyScripts', 'compileSass'], () => {
 	return gulp.src([
 			'css/app.css',
 			'js/app.min.js',
@@ -94,6 +93,16 @@ gulp.task('clean', () => {
 	])
 });
 
+// watch for sass & js changes
+gulp.task('watchFiles', () => {
+	gulp.watch('scss/**/*.scss', ['compileSass']);
+	gulp.watch('js/main.js', ['concatScripts']);
+});
+
+// dev pipeline
+gulp.task('dev', ['watchFiles']);
+
+// production pipeline
 gulp.task('default', ['clean'], () => {
 	gulp.start('build'); // executed once clean has finished
 });
