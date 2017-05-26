@@ -9,6 +9,8 @@
 	[7] http://thesassway.com/intermediate/using-source-maps-with-sass
 	[8] https://github.com/gulp-sourcemaps/gulp-sourcemaps
 	[9] http://blog.teamtreehouse.com/introduction-source-maps
+	[10] https://github.com/gulpjs/gulp/blob/master/docs/API.md#async-task-support
+	[11] https://github.com/isaacs/node-glob
 	
 	To run the http-server
 	1. install globally
@@ -16,6 +18,7 @@
 	2. run the server - specifying a port - default is 8080
 		$ http-server -p 3000
  */
+
 'use strict';
 const gulp = require('gulp');
 const concat = require('gulp-concat');
@@ -40,6 +43,7 @@ gulp.task('concat-scripts', () => {
 // tasks are run in parallel, however some tasks depend upon others completing 1st.
 // making concat-scripts a dependency of minify-scripts and adding the 'return' keyword
 // ensures that minify-scripts will not start until concat-scripts has returned
+// use the return keyword when a task depends on another task, otherwise not req'd
 gulp.task('minify-scripts', ['concat-scripts'], () => {
 	return gulp.src('js/app.js')
 		.pipe(uglify())
@@ -58,6 +62,10 @@ gulp.task('compile-sass', () => {
 		.pipe(gulp.dest('css'))
 });
 
+// watch for sass changes - look in the sass folder and any sub-folders for files with a .scss ext.
+gulp.task('watch-task', () => {
+	gulp.watch('scss/**/*.scss', ['compile-sass']);
+});
 
 gulp.task('build', ['minify-scripts', 'compile-sass']);
 
