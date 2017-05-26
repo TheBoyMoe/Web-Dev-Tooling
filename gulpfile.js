@@ -26,17 +26,22 @@ const maps = require('gulp-sourcemaps');
 
 // concat js files - order matters!
 gulp.task('concat-scripts', () => {
-	gulp.src([
+	return gulp.src([
 		'js/jquery.js',
 		'js/sticky/jquery.sticky.js',
 		'js/main.js'])
-	.pipe(concat('app.js'))
-	.pipe(gulp.dest('js'));
+		.pipe(maps.init())
+		.pipe(concat('app.js'))
+		.pipe(maps.write('./'))
+		.pipe(gulp.dest('js'));
 });
 
 // minify js
-gulp.task('minify-scripts', () => {
-	gulp.src('js/app.js')
+// tasks are run in parallel, however some tasks depend upon others completing 1st.
+// making concat-scripts a dependency of minify-scripts and adding the 'return' keyword
+// ensures that minify-scripts will not start until concat-scripts has returned
+gulp.task('minify-scripts', ['concat-scripts'], () => {
+	return gulp.src('js/app.js')
 		.pipe(uglify())
 		.pipe(rename('app.min.js'))
 		.pipe(gulp.dest('js'));
@@ -45,15 +50,17 @@ gulp.task('minify-scripts', () => {
 // compile sass
 gulp.task('compile-sass', () => {
 	// application.scss imports all other required scss files
-	gulp.src('scss/application.scss')
+	return gulp.src('scss/application.scss')
 		.pipe(maps.init())
 		.pipe(sass())
 		.pipe(rename('app.css'))
-		.pipe(maps.write('./'))
+		.pipe(maps.write('./')) // path relative to that specified to gulp.dest()
 		.pipe(gulp.dest('css'))
 });
 
 
-gulp.task('default', ['concat-scripts', 'minify-scripts', 'compile-sass'], () => {
+gulp.task('build', ['minify-scripts', 'compile-sass']);
+
+gulp.task('default', ['build'], () => {
 	console.log('... all tasks have been completed!');
 });
