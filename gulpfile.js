@@ -31,6 +31,7 @@ const uglify = require('gulp-uglify');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const maps = require('gulp-sourcemaps');
+const del = require('del');
 
 // concat js files - order matters!
 gulp.task('concat-scripts', () => {
@@ -84,6 +85,15 @@ gulp.task('build', ['minify-scripts', 'compile-sass'], () => {
 		.pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['build'], () => {
-	console.log('... all tasks have been completed!');
+// delete unnecessary files
+gulp.task('clean', () => {
+	del([
+		'dist',
+		'css/app.css*', // css and css.map files
+		'js/app*.js*' // js, min.js, js.map
+	])
+});
+
+gulp.task('default', ['clean'], () => {
+	gulp.start('build'); // executed once clean has finished
 });
