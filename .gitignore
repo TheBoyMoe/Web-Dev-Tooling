@@ -1,2 +1,4 @@
 .idea/
 gulp-useref/node_modules
+gulp-useref/dist
+gulp-useref/src/css
