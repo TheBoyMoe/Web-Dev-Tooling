@@ -1,0 +1,15 @@
+doctype html
+html(lang="en")
+	include partials/_head
+
+	body
+		include partials/_nav
+		block content
+
+		include partials/_footer
+
+		// build:js js/app.min.js
+		script(src="js/jquery-3.2.1.js")
+		script(src="js/app.js")
+		script(src="js/main.js")
+		// endbuild

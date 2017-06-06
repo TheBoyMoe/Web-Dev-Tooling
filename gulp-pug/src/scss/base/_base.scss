@@ -1,0 +1,33 @@
+html {
+	display: flex;
+}
+
+body {
+	box-sizing: border-box;
+	background-color: #efefef;
+	flex-direction: column;
+}
+
+
+h1 {
+	color: $color;
+	font-size: $size;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 300;
+}
+
+
+h2 {
+	transition: all 4s ease;
+}
+
+:fullscreen a {
+	display: flex;
+}
+
+.example {
+	display: flex;
+	transition: all .5s;
+	user-select: none;
+	background: linear-gradient(to bottom, white, black);
+}
